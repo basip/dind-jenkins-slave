@@ -15,10 +15,14 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update -qq && apt-get install -qqy \
     apt-transport-https \
     ca-certificates \
+    gpg-agent \
     curl \
     zip \
+    sudo \
     software-properties-common && \
     rm -rf /var/lib/apt/lists/*
+
+RUN usermod -a -G sudo jenkins
 
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 RUN add-apt-repository \
