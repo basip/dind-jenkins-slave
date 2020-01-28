@@ -30,7 +30,7 @@ RUN add-apt-repository \
     $(lsb_release -cs) \
     stable"
 # Install Docker from Docker Inc. repositories.
-RUN apt-get update -qq && apt-get install -qqy docker-ce=5:18.09.1~3-0~ubuntu-bionic && rm -rf /var/lib/apt/lists/*
+RUN apt-get update -qq && apt-get install -qqy docker-ce=5:19.03.5~3-0~ubuntu-bionic && rm -rf /var/lib/apt/lists/*
 
 ADD wrapdocker /usr/local/bin/wrapdocker
 RUN chmod +x /usr/local/bin/wrapdocker
