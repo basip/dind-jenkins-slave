@@ -19,6 +19,7 @@ RUN apt-get update -qq && apt-get install -qqy \
     curl \
     zip \
     sudo \
+    wget \
     software-properties-common && \
     rm -rf /var/lib/apt/lists/*
 
@@ -36,6 +37,20 @@ ADD wrapdocker /usr/local/bin/wrapdocker
 RUN chmod +x /usr/local/bin/wrapdocker
 VOLUME /var/lib/docker
 
+#Install SonarQube Scanner
+
+ENV SONAR_SCANNER_VERSION 4.2.0.1873
+
+RUN mkdir -p /opt && \
+    wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip && \
+    unzip sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip && \
+    mv sonar-scanner-${SONAR_SCANNER_VERSION}-linux /opt/sonar-scanner && \
+    rm -rf sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip && \
+    rm -rf /opt/sonar-scanner/conf/sonar-scanner.properties
+
+ENV SONAR_SCANNER_VERSION /opt/sonar-scanner
+
+ENV PATH $SONAR_SCANNER_VERSION/bin:$PATH
 
 # Make sure that the "jenkins" user from evarga's image is part of the "docker"
 # group. Needed to access the docker daemon's unix socket.
