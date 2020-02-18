@@ -52,10 +52,14 @@ ENV SONAR_SCANNER_VERSION /opt/sonar-scanner
 
 ENV PATH $SONAR_SCANNER_VERSION/bin:$PATH
 
+# Install NodeJS 13 for SonarQube scan
+
+RUN curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+RUN apt-get install -y nodejs
+
 # Make sure that the "jenkins" user from evarga's image is part of the "docker"
 # group. Needed to access the docker daemon's unix socket.
 RUN usermod -a -G docker jenkins
-
 
 # place the jenkins slave startup script into the container
 ADD jenkins-slave-startup.sh /
